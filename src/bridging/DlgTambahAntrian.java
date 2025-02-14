@@ -211,6 +211,8 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
         TkuotaNon = new widget.TextBox();
         jLabel25 = new widget.Label();
         Tnotif = new widget.TextBox();
+        jLabel26 = new widget.Label();
+        TnoBoking = new widget.TextBox();
         panelisi6 = new widget.panelisi();
         BtnSimpan = new widget.Button();
         BtnBatal = new widget.Button();
@@ -325,7 +327,7 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
         jLabel12.setBounds(427, 66, 80, 23);
 
         TtglPeriksa.setForeground(new java.awt.Color(50, 70, 50));
-        TtglPeriksa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-11-2024" }));
+        TtglPeriksa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12-02-2025" }));
         TtglPeriksa.setDisplayFormat("dd-MM-yyyy");
         TtglPeriksa.setEnabled(false);
         TtglPeriksa.setName("TtglPeriksa"); // NOI18N
@@ -498,6 +500,19 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
         panelisi4.add(Tnotif);
         Tnotif.setBounds(113, 262, 630, 23);
 
+        jLabel26.setText("No. Booking :");
+        jLabel26.setName("jLabel26"); // NOI18N
+        panelisi4.add(jLabel26);
+        jLabel26.setBounds(513, 94, 80, 23);
+
+        TnoBoking.setEditable(false);
+        TnoBoking.setBackground(new java.awt.Color(245, 250, 240));
+        TnoBoking.setForeground(new java.awt.Color(0, 0, 255));
+        TnoBoking.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        TnoBoking.setName("TnoBoking"); // NOI18N
+        panelisi4.add(TnoBoking);
+        TnoBoking.setBounds(596, 94, 152, 23);
+
         internalFrame1.add(panelisi4, java.awt.BorderLayout.CENTER);
 
         panelisi6.setName("panelisi6"); // NOI18N
@@ -643,6 +658,7 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
     private widget.TextBox TnmDokter;
     private widget.TextBox TnmPoli;
     private widget.TextBox TnoAntrian;
+    private widget.TextBox TnoBoking;
     private widget.TextBox TnoHp;
     private widget.TextBox TnoKartu;
     private widget.TextBox TnoReferensi;
@@ -671,6 +687,7 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
     private widget.Label jLabel23;
     private widget.Label jLabel24;
     private widget.Label jLabel25;
+    private widget.Label jLabel26;
     private widget.Label jLabel4;
     private widget.Label jLabel5;
     private widget.Label jLabel6;
@@ -699,6 +716,7 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
         TkuotaNon.setText("");
         Tketerangan.setText("");
         Tnotif.setText("");
+        TnoBoking.setText("");
     }
     
     public void setData(String norw, String norm, String nmpasien, String noka, String kdpoli, String nmpoli, String kddokter, 
@@ -716,6 +734,11 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
         TangkaAntrian.setText(TnoAntrian.getText());
         Tketerangan.setText("-");
         Testimasi.setText(Sequel.cariIsi("select LEFT((UNIX_TIMESTAMP(concat(tgl_registrasi,' ',jam_reg)))*1000,13) hasil from reg_periksa WHERE no_rawat='" + norw + "'"));
+
+        TnoBoking.setText(Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='" + norw + "'"));
+        if (TnoBoking.getText().equals("")) {
+            TnoBoking.setText(norw);
+        }
         
         if (kdpoli.equals("")) {
             TkdPoli.setText(Sequel.cariIsi("select m.kd_poli_bpjs from reg_periksa rp inner join maping_poli_bpjs m on m.kd_poli_rs=rp.kd_poli where rp.no_rawat='" + norw + "'"));
@@ -780,7 +803,7 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
             headers.add("user_key", koneksiDB.USERKEYAPIMOBILEJKN());
             URL = link + "/antrean/add";
             requestJson = "{"
-                    + "\"kodebooking\":\"" + TNoRw.getText() + "\","
+                    + "\"kodebooking\":\"" + TnoBoking.getText() + "\","
                     + "\"jenispasien\":\"" + cmbJenisPasien.getSelectedItem().toString() + "\","
                     + "\"nomorkartu\":\"" + TnoKartu.getText() + "\","
                     + "\"nik\":\"" + Tnik.getText() + "\","
@@ -816,7 +839,7 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
             if (nameNode.path("code").asText().equals("200") || nameNode.path("code").asText().equals("208")) {
                 if (Sequel.queryu2tf("update antrol_bpjs set kd_booking=?,request_json=?,respon_taskid_0=?,keterangan_taskid_0=? where no_rawat=?", 5,
                         new String[]{
-                            TNoRw.getText(), requestJson, nameNode.path("code").asText(), nameNode.path("message").asText(),
+                            TnoBoking.getText(), requestJson, nameNode.path("code").asText(), nameNode.path("message").asText(),
                             TNoRw.getText()
                         }) == true) {
                     emptTeks();
@@ -826,7 +849,7 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
             } else {
                 if (Sequel.queryu2tf("update antrol_bpjs set kd_booking=?,request_json=?,respon_taskid_0=?,keterangan_taskid_0=? where no_rawat=?", 5,
                         new String[]{
-                            TNoRw.getText(), requestJson, nameNode.path("code").asText(), nameNode.path("message").asText(),
+                            TnoBoking.getText(), requestJson, nameNode.path("code").asText(), nameNode.path("message").asText(),
                             TNoRw.getText()
                         }) == true) {
                     akses.setNomorAntrian("");

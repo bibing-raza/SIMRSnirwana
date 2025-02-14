@@ -729,15 +729,19 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
         Tnik.setText(Sequel.cariIsi("select no_ktp from pasien where no_rkm_medis='" + norm + "'"));
         TnoHp.setText(Sequel.cariIsi("select no_tlp from pasien where no_rkm_medis='" + norm + "'"));
         Valid.SetTgl(TtglPeriksa, Sequel.cariIsi("select tgl_registrasi from reg_periksa where no_rawat='" + norw + "'"));        
-        TnoReferensi.setText(noreferensi);
-        TnoAntrian.setText(Sequel.cariIsi("select no_antrian from antrian_history where no_rawat='" + norw + "'"));
-        TangkaAntrian.setText(TnoAntrian.getText());
+        TnoReferensi.setText(noreferensi);        
         Tketerangan.setText("-");
         Testimasi.setText(Sequel.cariIsi("select LEFT((UNIX_TIMESTAMP(concat(tgl_registrasi,' ',jam_reg)))*1000,13) hasil from reg_periksa WHERE no_rawat='" + norw + "'"));
 
         TnoBoking.setText(Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='" + norw + "'"));
         if (TnoBoking.getText().equals("")) {
             TnoBoking.setText(norw);
+            TnoAntrian.setText(Sequel.cariIsi("select no_antrian from antrian_history where no_rawat='" + norw + "'"));
+            TangkaAntrian.setText(TnoAntrian.getText());
+        } else {
+            TnoBoking.setText(TnoBoking.getText());
+            TnoAntrian.setText(Sequel.cariIsi("select nomorantrean from referensi_mobilejkn_bpjs where no_rawat='" + norw + "'"));
+            TangkaAntrian.setText(Sequel.cariIsi("select angkaantrean from referensi_mobilejkn_bpjs where no_rawat='" + norw + "'"));
         }
         
         if (kdpoli.equals("")) {

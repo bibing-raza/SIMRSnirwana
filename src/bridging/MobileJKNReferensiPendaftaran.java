@@ -590,7 +590,7 @@ public final class MobileJKNReferensiPendaftaran extends javax.swing.JDialog {
                         }) == true) {
 
                             Sequel.menyimpanignore("antrol_bpjs", "'" + no_rawat + "','" + tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(), 14).toString() + "','" + Sequel.cariIsi("select date(now())") + "',"
-                                    + "'00:00:00','00:00:00','" + jam() + "','','','','','','','','','','','','200','kunjungan mobile JKN','','','','','','','','','','',"
+                                    + "'00:00:00','00:00:00','" + jam() + "','','','','','','','','','','','200','kunjungan mobile JKN','','','','','','','','','','','',"
                                     + "'','','','','','','','','','-'");
 
                             if (Sequel.mengedittf("referensi_mobilejkn_bpjs", "nobooking=?", "no_rawat='" + no_rawat + "', status='Checkin', validasi=now()", 1, new String[]{

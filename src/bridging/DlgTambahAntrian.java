@@ -857,7 +857,7 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
                             TNoRw.getText()
                         }) == true) {
                     akses.setNomorAntrian("");
-                    Tnotif.setText("Bridging Antrol : " + nameNode.path("message").asText());
+                    Tnotif.setText("Bridging Antrol : " + nameNode.path("message").asText() + ", Silahkan lengkapi dulu sesuai ketentuan,..!!");
                 }
             }
             

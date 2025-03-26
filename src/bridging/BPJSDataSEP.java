@@ -3795,22 +3795,22 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
     }//GEN-LAST:event_CatatanKeyPressed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if(akses.getform().equals("DlgReg")||akses.getform().equals("DlgIGD")||akses.getform().equals("DlgKasirRalan")||akses.getform().equals("DlgKamarInap")){
-            prb="";
-            no_peserta=Sequel.cariIsi("select pasien.no_peserta from pasien where pasien.no_rkm_medis=?",TNoRM.getText());
-            System.out.println("No.Peserta : "+no_peserta);
-            if(no_peserta.trim().equals("")){
-                JOptionPane.showMessageDialog(null,"Pasien tidak mempunyai kepesertaan BPJS");
+        if (akses.getform().equals("DlgReg") || akses.getform().equals("DlgIGD") || akses.getform().equals("DlgKasirRalan") || akses.getform().equals("DlgKamarInap")) {
+            prb = "";
+            no_peserta = Sequel.cariIsi("select pasien.no_peserta from pasien where pasien.no_rkm_medis=?", TNoRM.getText());
+            System.out.println("No.Peserta : " + no_peserta);
+            if (no_peserta.trim().equals("")) {
+                JOptionPane.showMessageDialog(null, "Pasien tidak mempunyai kepesertaan BPJS");
                 dispose();
-            }else{
+            } else {
                 cekViaBPJSKartu.tampil(no_peserta);
-                if(cekViaBPJSKartu.informasi.equals("OK")){
-                    if(cekViaBPJSKartu.statusPesertaketerangan.equals("AKTIF")){
+                if (cekViaBPJSKartu.informasi.equals("OK")) {
+                    if (cekViaBPJSKartu.statusPesertaketerangan.equals("AKTIF")) {
                         TPasien.setText(cekViaBPJSKartu.nama);
                         TglLahir.setText(cekViaBPJSKartu.tglLahir);
                         NIK.setText(cekViaBPJSKartu.nik);
-                        if(NIK.getText().equals("")){
-                            NIK.setText(Sequel.cariIsi("select pasien.no_ktp from pasien where pasien.no_rkm_medis=?",TNoRM.getText()));
+                        if (NIK.getText().equals("")) {
+                            NIK.setText(Sequel.cariIsi("select pasien.no_ktp from pasien where pasien.no_rkm_medis=?", TNoRM.getText()));
                         }
                         JK.setText(cekViaBPJSKartu.sex);
                         NoKartu.setText(no_peserta);
@@ -3818,24 +3818,30 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                         Status.setText(cekViaBPJSKartu.statusPesertaketerangan);
                         KdPpkRujukan.setText(cekViaBPJSKartu.provUmumkdProvider);
                         NmPpkRujukan.setText(cekViaBPJSKartu.provUmumnmProvider);
-                        if(cekViaBPJSKartu.hakKelaskode.equals("1")){
+                        if (cekViaBPJSKartu.hakKelaskode.equals("1")) {
                             Kelas.setSelectedIndex(0);
-                        }else if(cekViaBPJSKartu.hakKelaskode.equals("2")){
+                        } else if (cekViaBPJSKartu.hakKelaskode.equals("2")) {
                             Kelas.setSelectedIndex(1);
-                        }else if(cekViaBPJSKartu.hakKelaskode.equals("3")){
+                        } else if (cekViaBPJSKartu.hakKelaskode.equals("3")) {
                             Kelas.setSelectedIndex(2);
                         }
-                        NoTelp.setText(cekViaBPJSKartu.mrnoTelepon);
-                        prb=cekViaBPJSKartu.informasiprolanisPRB.replaceAll("null","");
+                        
+                        if (cekViaBPJSKartu.mrnoTelepon.equals("null")) {
+                            NoTelp.setText("select if(no_tlp='','0',no_tlp) from pasien where no_rkm_medis='" + TNoRM.getText() + "'");
+                        } else {
+                            NoTelp.setText(cekViaBPJSKartu.mrnoTelepon);
+                        }
+                        
+                        prb = cekViaBPJSKartu.informasiprolanisPRB.replaceAll("null", "");
                         NoRujukan.requestFocus();
-                    }else{
-                        JOptionPane.showMessageDialog(null,"Status kepesertaan tidak aktif..!!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Status kepesertaan tidak aktif..!!");
                         dispose();
                     }
-                }else{
+                } else {
                     dispose();
-                }                    
-            } 
+                }                
+            }            
         }
     }//GEN-LAST:event_formWindowOpened
 

@@ -731,12 +731,13 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
         Valid.SetTgl(TtglPeriksa, Sequel.cariIsi("select tgl_registrasi from reg_periksa where no_rawat='" + norw + "'"));        
         TnoReferensi.setText(noreferensi);        
         Tketerangan.setText("-");
-        Testimasi.setText(Sequel.cariIsi("select LEFT((UNIX_TIMESTAMP(concat(tgl_registrasi,' ',jam_reg)))*1000,13) hasil from reg_periksa WHERE no_rawat='" + norw + "'"));
+        Testimasi.setText(Sequel.cariIsi("select LEFT((UNIX_TIMESTAMP(concat(tgl_registrasi,' ',jam_reg)))*1000,13) hasil from reg_periksa WHERE no_rawat='" + norw + "'"));        
 
         TnoBoking.setText(Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='" + norw + "'"));
         if (TnoBoking.getText().equals("")) {
             TnoBoking.setText(norw);
-            TnoAntrian.setText(Sequel.cariIsi("select no_antrian from antrian_history where no_rawat='" + norw + "'"));
+            TnoAntrian.setText(Sequel.cariIsi("select ifnull(no_reg,'0') from reg_periksa where no_rawat='" + norw + "'"));
+//            TnoAntrian.setText(Sequel.cariIsi("select no_antrian from antrian_history where no_rawat='" + norw + "'"));
             TangkaAntrian.setText(TnoAntrian.getText());
         } else {
             TnoBoking.setText(TnoBoking.getText());
@@ -764,7 +765,7 @@ public final class DlgTambahAntrian extends javax.swing.JDialog {
         
         if (Sequel.cariIsi("select ifnull(j.kuota,'60') from jadwal j inner join maping_dokter_dpjpvclaim m on m.kd_dokter=j.kd_dokter "
                 + "where m.kd_dokter_bpjs='" + TkdDokter.getText() + "'").equals("")) {
-            TkuotaJkn.setText("60");
+            TkuotaJkn.setText(Sequel.cariIsi("select ifnull(kuota,'60') from jadwal where kd_dokter='" + TkdDokter.getText() + "'"));
             TkuotaNon.setText(TkuotaJkn.getText());
         } else {
             TkuotaJkn.setText(Sequel.cariIsi("select ifnull(j.kuota,'60') from jadwal j inner join maping_dokter_dpjpvclaim m on m.kd_dokter=j.kd_dokter "

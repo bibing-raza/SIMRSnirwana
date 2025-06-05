@@ -16521,7 +16521,13 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                         + "'" + Sequel.cariIsi("select waktu_cetak from antrian_nomor where no_antrian='" + akses.getNomorAntrian() + "' and date(waktu_cetak)=date(now())") + "',"
                         + "'" + Sequel.cariIsi("select waktu_panggil from antrian_pemanggil where no_antrian='" + akses.getNomorAntrian() + "' and date(waktu_panggil)=date(now())") + "',"
                         + "'" + Sequel.cariIsi("select now()") + "','" + TNoRw.getText() + "'");
-            }            
+            } else {
+                Sequel.menyimpanignore("antrol_bpjs", "'" + TNoRw.getText() + "','','" + Valid.SetTgl(DTPReg.getSelectedItem() + "") + "',"
+                        + "'" + Sequel.cariIsi("select time(now()) - INTERVAL 2 minute") + "',"
+                        + "'" + Sequel.cariIsi("select time(now()) - INTERVAL 10 second") + "',"
+                        + "'" + CmbJam.getSelectedItem() + ":" + CmbMenit.getSelectedItem() + ":" + CmbDetik.getSelectedItem() + "',"
+                        + "'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','-'");
+            }
         } catch (Exception e) {
             System.out.println("Notifikasi : " + e);
         }

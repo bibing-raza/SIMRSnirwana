@@ -6265,7 +6265,9 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
         KdPoli.setText(Sequel.cariIsi("select maping_poli_bpjs.kd_poli_bpjs from maping_poli_bpjs where maping_poli_bpjs.kd_poli_rs=?",kdpoli));
         NmPoli.setText(Sequel.cariIsi("select maping_poli_bpjs.nm_poli_bpjs from maping_poli_bpjs where maping_poli_bpjs.kd_poli_bpjs=?",KdPoli.getText()));
         KdDPJP.setText(Sequel.cariIsi("select maping_dokter_dpjpvclaim.kd_dokter_bpjs from maping_dokter_dpjpvclaim where maping_dokter_dpjpvclaim.kd_dokter=?",kddokter));
-        NmDPJP.setText(Sequel.cariIsi("select maping_dokter_dpjpvclaim.nm_dokter_bpjs from maping_dokter_dpjpvclaim where maping_dokter_dpjpvclaim.kd_dokter=?",kddokter));
+        NmDPJP.setText(Sequel.cariIsi("select maping_dokter_dpjpvclaim.nm_dokter_bpjs from maping_dokter_dpjpvclaim where maping_dokter_dpjpvclaim.kd_dokter=?", kddokter));
+        KdDPJPLayanan.setText(KdDPJP.getText());
+        NmDPJPLayanan.setText(NmDPJP.getText());
         JenisPelayanan.setSelectedItem(status);
         JenisPelayananItemStateChanged(null);
         isRawat();            

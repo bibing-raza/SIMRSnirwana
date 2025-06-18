@@ -59,7 +59,7 @@ public final class MobileJKNReferensiPendaftaran extends javax.swing.JDialog {
         tabMode = new DefaultTableModel(null, new Object[]{
             "No.Rawat", "No.RM", "Nama Pasien", "No.HP", "No.Kartu", "NIK", "Tanggal", "Poliklinik", "Dokter", "Jam Praktek", "Jenis Kunjungan",
             "Nomor Referensi", "Status", "Validasi Checkin", "No.Booking", "kodepoli", "thnLahir", "blnLahir", "hrLahir", "kodedokter", "nmKeluarga",
-            "alamatPJ", "nmKelurahan", "nmKecamatan", "nmKabupaten", "nmPropinsi", "klgPasien"
+            "alamatPJ", "nmKelurahan", "nmKecamatan", "nmKabupaten", "nmPropinsi", "klgPasien", "No. Reg."
             }){
              @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -68,7 +68,7 @@ public final class MobileJKNReferensiPendaftaran extends javax.swing.JDialog {
         tbJnsPerawatan.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbJnsPerawatan.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 27; i++) {
+        for (i = 0; i < 28; i++) {
             TableColumn column = tbJnsPerawatan.getColumnModel().getColumn(i);
             if (i == 0) {
                 column.setPreferredWidth(110);
@@ -136,6 +136,8 @@ public final class MobileJKNReferensiPendaftaran extends javax.swing.JDialog {
             } else if (i == 26) {
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
+            } else if (i == 27) {
+                column.setPreferredWidth(60);
             }
         }
         tbJnsPerawatan.setDefaultRenderer(Object.class, new WarnaTable());
@@ -579,7 +581,7 @@ public final class MobileJKNReferensiPendaftaran extends javax.swing.JDialog {
 
                         isNomer(kodePoli, kodeDokter);
                         if (Sequel.menyimpantf2("reg_periksa", "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?", "No.Rawat", 19, new String[]{
-                            NoReg.getText(), no_rawat, Sequel.cariIsi("select date(now())"), jam(),
+                            tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(), 27).toString(), no_rawat, Sequel.cariIsi("select date(now())"), jam(),
                             kodeDokter, tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(), 1).toString(), kodePoli,
                             tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(), 20).toString(),
                             tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(), 21).toString() + ", " + tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(), 22).toString()
@@ -665,7 +667,7 @@ public final class MobileJKNReferensiPendaftaran extends javax.swing.JDialog {
                     + "referensi_mobilejkn_bpjs.nobooking, TIMESTAMPDIFF(YEAR, pasien.tgl_lahir, CURDATE()) as tahun, (TIMESTAMPDIFF(MONTH, pasien.tgl_lahir, CURDATE()) - ((TIMESTAMPDIFF(MONTH, pasien.tgl_lahir, CURDATE()) div 12) * 12)) as bulan, "
                     + "TIMESTAMPDIFF(DAY, DATE_ADD(DATE_ADD(pasien.tgl_lahir,INTERVAL TIMESTAMPDIFF(YEAR, pasien.tgl_lahir, CURDATE()) YEAR), INTERVAL TIMESTAMPDIFF(MONTH, pasien.tgl_lahir, CURDATE()) - ((TIMESTAMPDIFF(MONTH, pasien.tgl_lahir, CURDATE()) div 12) * 12) MONTH), CURDATE()) as hari, "
                     + "pasien.namakeluarga, concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) as alamatpj, pasien.kelurahanpj, pasien.kecamatanpj, pasien.kabupatenpj, "
-                    + "pasien.propinsipj, pasien.keluarga FROM referensi_mobilejkn_bpjs INNER JOIN pasien ON referensi_mobilejkn_bpjs.norm=pasien.no_rkm_medis "
+                    + "pasien.propinsipj, pasien.keluarga, referensi_mobilejkn_bpjs.angkaantrean FROM referensi_mobilejkn_bpjs INNER JOIN pasien ON referensi_mobilejkn_bpjs.norm=pasien.no_rkm_medis "
                     + "inner join kelurahan on pasien.kd_kel=kelurahan.kd_kel "
                     + "inner join kecamatan on pasien.kd_kec=kecamatan.kd_kec "
                     + "inner join kabupaten on pasien.kd_kab=kabupaten.kd_kab "
@@ -701,7 +703,8 @@ public final class MobileJKNReferensiPendaftaran extends javax.swing.JDialog {
                         rs.getString ("kodepoli"), rs.getString ("tahun"), rs.getString ("bulan"), 
                         rs.getString ("hari"), rs.getString ("kodedokter"), rs.getString ("namakeluarga"),
                         rs.getString ("alamatpj"), rs.getString ("kelurahanpj"), rs.getString ("kecamatanpj"), 
-                        rs.getString ("kabupatenpj"), rs.getString ("propinsipj"), rs.getString ("keluarga") 
+                        rs.getString ("kabupatenpj"), rs.getString ("propinsipj"), rs.getString ("keluarga"),
+                        rs.getString ("angkaantrean")
                     });
                 }
             } catch (Exception e) {

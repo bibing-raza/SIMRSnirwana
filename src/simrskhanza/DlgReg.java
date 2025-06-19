@@ -15832,11 +15832,13 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             }
 
         } else if (BASENOREG.equals("reg + mjkn")) {
-            if (Sequel.cariInteger("select ifnull(MAX(CONVERT(angkaantrean,signed)),0) from referensi_mobilejkn_bpjs where kodedokter='" + KdDokter.getText() + "' and kodepoli='" + kdpoli.getText() + "' and tanggalperiksa='" + Valid.SetTgl(DTPReg.getSelectedItem() + "") + "'")
-                    >= Sequel.cariInteger("select ifnull(MAX(CONVERT(reg_periksa.no_reg,signed)),0) from reg_periksa where reg_periksa.kd_dokter='" + KdDokter.getText() + "' and reg_periksa.kd_poli='" + kdpoli.getText() + "' and reg_periksa.tgl_registrasi='" + Valid.SetTgl(DTPReg.getSelectedItem() + "") + "'")) {
-                Valid.autoNomer3("select ifnull(MAX(CONVERT(angkaantrean,signed)),0) from referensi_mobilejkn_bpjs where kodedokter='" + KdDokter.getText() + "' and kodepoli='" + kdpoli.getText() + "' and tanggalperiksa='" + Valid.SetTgl(DTPReg.getSelectedItem() + "") + "'", "", 3, TNoReg);
+            if (Sequel.cariInteger("SELECT ifnull(MAX(CONVERT(rm.angkaantrean,signed)),0) FROM referensi_mobilejkn_bpjs rm INNER JOIN maping_dokter_dpjpvclaim md ON md.kd_dokter_bpjs=rm.kodedokter "
+                    + "INNER JOIN maping_poli_bpjs mp ON mp.kd_poli_bpjs=rm.kodepoli where md.kd_dokter='" + KdDokter.getText() + "' and mp.kd_poli_rs='" + kdpoli.getText() + "' and tanggalperiksa='" + Valid.SetTgl(DTPReg.getSelectedItem() + "") + "'")
+                    >= Sequel.cariInteger("select ifnull(MAX(CONVERT(no_reg,signed)),0) from reg_periksa where kd_dokter='" + KdDokter.getText() + "' and kd_poli='" + kdpoli.getText() + "' and tgl_registrasi='" + Valid.SetTgl(DTPReg.getSelectedItem() + "") + "'")) {
+                Valid.autoNomer3("SELECT ifnull(MAX(CONVERT(rm.angkaantrean,signed)),0) FROM referensi_mobilejkn_bpjs rm INNER JOIN maping_dokter_dpjpvclaim md ON md.kd_dokter_bpjs=rm.kodedokter "
+                        + "INNER JOIN maping_poli_bpjs mp ON mp.kd_poli_bpjs=rm.kodepoli where md.kd_dokter='" + KdDokter.getText() + "' and mp.kd_poli_rs='" + kdpoli.getText() + "' and tanggalperiksa='" + Valid.SetTgl(DTPReg.getSelectedItem() + "") + "'", "", 3, TNoReg);
             } else {
-                Valid.autoNomer3("select ifnull(MAX(CONVERT(reg_periksa.no_reg,signed)),0) from reg_periksa where kd_dokter='" + KdDokter.getText() + "' and reg_periksa.kd_poli='" + kdpoli.getText() + "' and reg_periksa.tgl_registrasi='" + Valid.SetTgl(DTPReg.getSelectedItem() + "") + "'", "", 3, TNoReg);
+                Valid.autoNomer3("select ifnull(MAX(CONVERT(no_reg,signed)),0) from reg_periksa where kd_dokter='" + KdDokter.getText() + "' and kd_poli='" + kdpoli.getText() + "' and tgl_registrasi='" + Valid.SetTgl(DTPReg.getSelectedItem() + "") + "'", "", 3, TNoReg);
             }
 
         } else {

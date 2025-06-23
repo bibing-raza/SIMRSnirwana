@@ -3827,7 +3827,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                         }
                         
                         if (cekViaBPJSKartu.mrnoTelepon.equals("null")) {
-                            NoTelp.setText("select if(no_tlp='','0',no_tlp) from pasien where no_rkm_medis='" + TNoRM.getText() + "'");
+                            NoTelp.setText(Sequel.cariIsi("select if(no_tlp='','0',no_tlp) from pasien where no_rkm_medis='" + TNoRM.getText() + "'"));
                         } else {
                             NoTelp.setText(cekViaBPJSKartu.mrnoTelepon);
                         }

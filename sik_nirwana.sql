@@ -11,7 +11,7 @@
  Target Server Version : 100131 (10.1.31-MariaDB)
  File Encoding         : 65001
 
- Date: 09/02/2026 09:13:36
+ Date: 13/02/2026 22:36:16
 */
 
 SET NAMES utf8mb4;
@@ -148,6 +148,20 @@ CREATE TABLE `antrian_history_reset`  (
   `nomor_terakhir` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `tgl_reset` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = COMPACT;
+
+-- ----------------------------
+-- Table structure for antrian_informasi
+-- ----------------------------
+DROP TABLE IF EXISTS `antrian_informasi`;
+CREATE TABLE `antrian_informasi`  (
+  `kode` int NOT NULL AUTO_INCREMENT,
+  `url_video_player` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `kalimat` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `url_playlist` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `shutdown_tv_antrian` time NULL DEFAULT NULL,
+  `lokasi_file_video` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  PRIMARY KEY (`kode`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Table structure for antrian_nomor
